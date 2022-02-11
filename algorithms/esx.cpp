@@ -4,6 +4,10 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 
 #include "kspwlo.hpp"
 
+#include <set>
+#include <utility>
+#include <vector>
+
 typedef priority_queue<pair<int,Edge>> PathEdges;
 
 struct PathComparator {

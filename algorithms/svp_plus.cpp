@@ -4,6 +4,10 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 
 #include "kspwlo.hpp"
 
+#include <set>
+#include <utility>
+#include <vector>
+
 typedef pair<Label*,Label*> SvpLabel;
 
 class SvpLabelComparator {

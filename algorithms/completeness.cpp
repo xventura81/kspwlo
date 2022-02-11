@@ -1,5 +1,9 @@
 #include "kspwlo.hpp"
 
+#include <set>
+#include <utility>
+#include <vector>
+
 pair<vector<Path>,double> completeness_function(RoadNetwork *rN, vector<Path> inputPaths, unsigned int k, double theta) {
 	vector<Path> resPaths;
 	vector<int> resPathsIndices;
