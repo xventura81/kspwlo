@@ -6,6 +6,7 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 #include <fstream> 
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/program_options.hpp>
 
 #include "model/graph.hpp"
 #include "algorithms/kspwlo.hpp"
@@ -20,29 +21,25 @@ int main(int argc, char **argv) {
     RoadNetwork *rN = 0;
     
     NodeID source = 0, target = 100;
-           	   	       	   	
-   	int opt = -1;
-	while ((opt = getopt(argc, argv, "f:s:d:k:t:a:")) != -1) {
-		switch(opt) {
-			case 'f':
-				graphFile = string(optarg);
-				break;
-			case 's':
-				source = stoi(string(optarg));
-				break;
-			case 'd':
-				target = stoi(string(optarg));
-				break;
-			case 'k':
-				k = stoi(string(optarg));
-				break;
-			case 't':
-				theta = stof(string(optarg));
-				break;
-			case 'a':
-				algo = string(optarg);
-				break;
-		}
+
+	namespace po = boost::program_options;
+	po::options_description desc("Allowed options");
+    desc.add_options()
+		("help,h", "")
+		("file,f", po::value<string>(&graphFile), "")
+		("source,s", po::value<unsigned int>(&source), "")
+		("destination,d", po::value<unsigned int>(&target), "")
+		("paths,k", po::value<unsigned int>(&k), "")
+		("threshold,t", po::value<double>(&theta), "")
+		("algorithm,a", po::value<string>(&algo), "");
+
+	po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);    
+
+	if (vm.count("help")) {
+		cout << desc << "\n";
+		return 1;
 	}
 	
 	//Input checking	
