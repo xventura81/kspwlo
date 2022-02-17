@@ -6,9 +6,11 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 #include <fstream> 
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/graph/graphviz.hpp>
 #include <boost/program_options.hpp>
 
 #include "model/graph.hpp"
+#include "model/graph_adaptor.h"
 #include "algorithms/kspwlo.hpp"
 
 using namespace std;
@@ -105,7 +107,15 @@ int main(int argc, char **argv) {
     	cout << "," << result[j].length;
     }
     cout << "]" << endl;
-    	
+
+    cout << endl;
+    auto index = int{0};
+    for( const auto& path : result ) {
+        cout << "--Path " << index++ << "--" << endl;
+        boost::write_graphviz(cout, path);
+        cout << endl;
+    }
+
     delete rN;
     return 0;
 }
