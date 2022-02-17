@@ -5,6 +5,7 @@ project(KSPWLO VERSION 1.0 LANGUAGES CXX)
 
 find_package(   Boost 
                 COMPONENTS 
+                    graph
                     program_options 
                     regex
                 REQUIRED )
@@ -24,6 +25,7 @@ target_sources( kspwlo
 
 target_link_libraries(  kspwlo
                         PRIVATE
+                        Boost::graph
                         Boost::headers
                         Boost::program_options 
                         Boost::regex)
