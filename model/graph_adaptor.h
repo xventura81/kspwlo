@@ -2,8 +2,14 @@
 
 #include "graph.hpp"
 
-#include <boost/graph/graph_concepts.hpp>
 #include <boost/graph/graph_traits.hpp>
+#include <boost/graph/properties.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/property_map/property_map.hpp>
+
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 namespace boost {
 
@@ -74,7 +80,7 @@ struct graph_traits<Path> {
             : edge_iterator{ p, std::begin(p->edges) } {
         }
 
-        edge_iterator( const Path* p, std::unordered_set<edge_descriptor,boost::hash<edge_descriptor>>::iterator it )
+        edge_iterator( const Path* p, std::unordered_set<edge_descriptor,boost::hash<edge_descriptor>>::const_iterator it )
             : p(p)
             , it{ it } {
         }
@@ -104,7 +110,7 @@ struct graph_traits<Path> {
             it = std::next(it);
         }
 
-        std::unordered_set<edge_descriptor,boost::hash<edge_descriptor>>::iterator it;
+        std::unordered_set<edge_descriptor,boost::hash<edge_descriptor>>::const_iterator it;
         const Path* p = nullptr;
 
         friend class iterator_core_access;
@@ -164,8 +170,5 @@ inline size_t get(vertex_index_t, const Path& p, typename graph_traits<Path>::ve
 inline void renumber_vertex_indices(const Path& p)
 {
 }
-
-BOOST_CONCEPT_ASSERT(( VertexAndEdgeListGraphConcept<Path> ));
-BOOST_CONCEPT_ASSERT(( VertexIndexGraphConcept<Path> ));
 
 } // boost
