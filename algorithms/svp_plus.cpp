@@ -141,7 +141,10 @@ vector<Path> svp_plus(RoadNetwork *rN, NodeID source, NodeID target, unsigned in
     		continue;
     	svpQueue.push(svpLabels[i]);
     }
-    
+
+    if(svpQueue.empty())
+        return resPathsFinal;
+
     // Adding shortest path to the result set
     Path sp;
     sp.length = svpQueue.top().first->length + svpQueue.top().second->length;
@@ -323,6 +326,9 @@ pair<vector<Path>,double> svp_plus_complete(RoadNetwork *rN, NodeID source, Node
     	svpQueue.push(svpLabels[i]);
     }
     
+    if(svpQueue.empty())
+        return make_pair(resPathsFinal,theta);
+
     // Adding shortest path to the result set
     Path sp;
     sp.length = svpQueue.top().first->length + svpQueue.top().second->length;

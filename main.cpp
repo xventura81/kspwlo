@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     double theta = -1;
     string algo = "";
     std::unique_ptr<RoadNetwork> rN = nullptr;
-    
+
     NodeID source = 0, target = 100;
 
 	namespace po = boost::program_options;
@@ -105,7 +105,12 @@ int main(int argc, char **argv) {
    		completeResult = esx_complete(rN.get(),source,target,k,theta);
    		result = completeResult.first;
    	}
-    
+
+    if(result.empty()) {
+        cout << "No solution found!" << endl;
+        return 0;
+    }
+
     cout << source << "\t" << target << "\t[" << result[0].length;
     for(unsigned int j = 1;j<result.size();j++) {
     	cout << "," << result[j].length;

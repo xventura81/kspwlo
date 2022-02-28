@@ -36,6 +36,9 @@ vector<Path> onepass_plus(RoadNetwork *rN, NodeID source, NodeID target, unsigne
     pair<Path,vector<int>> resDijkstra= dijkstra_path_and_bounds(rN,source,target);
     
     Path resNext = resDijkstra.first;
+
+	if(resNext.nodes.empty())
+        return resPaths;
     
     resPaths.push_back(resNext);
     

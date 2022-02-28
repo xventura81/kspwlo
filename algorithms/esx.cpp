@@ -36,6 +36,9 @@ vector<Path> esx(RoadNetwork *rN, NodeID source, NodeID target, unsigned int k, 
 	EdgeList::iterator iterAdj;
 	
 	pair<Path,vector<int>> resDijkstra= dijkstra_path_and_bounds(rN,source,target);
+    if(resDijkstra.first.nodes.empty())
+        return resPaths;
+
 	resPaths.push_back(resDijkstra.first);
 	
 	if(k==1)
@@ -161,6 +164,8 @@ pair<vector<Path>,double> esx_complete(RoadNetwork *rN, NodeID source, NodeID ta
 	EdgeList::iterator iterAdj;
 	
 	pair<Path,vector<int>> resDijkstra= dijkstra_path_and_bounds(rN,source,target);
+	if(resDijkstra.first.nodes.empty())
+        return make_pair(resPaths,theta);
 	resPaths.push_back(resDijkstra.first);
 	candidatePaths.push_back(resDijkstra.first);
 	double globalMin = 1;
