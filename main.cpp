@@ -14,10 +14,12 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 #include <boost/regex.hpp>
 
 #include <iostream>
+#include <filesystem>
 #include <fstream> 
 #include <memory>
 
 using namespace std;
+namespace fs = std::filesystem;
 
 int main(int argc, char **argv) {
     string graphFile = "";
@@ -126,6 +128,15 @@ int main(int argc, char **argv) {
         cout << "--Path " << index++ << "--" << endl;
         boost::write_graphviz(cout, path);
         cout << endl;
+    }
+
+    index = 0;
+    fs::path baseFilePath{graphFile};
+    for( const auto& path : result ) {
+        fs::path resFilePath{baseFilePath};
+        resFilePath.replace_filename(baseFilePath.stem().string() + "_" + std::to_string(index++));
+        std::ofstream stream{resFilePath};
+        boost::write_graphviz(stream, path);
     }
 
     return 0;

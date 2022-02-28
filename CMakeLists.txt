@@ -29,3 +29,7 @@ target_link_libraries(  kspwlo
                         Boost::headers
                         Boost::program_options 
                         Boost::regex)
+
+target_compile_features(kspwlo 
+                        PRIVATE 
+                            cxx_std_17)
