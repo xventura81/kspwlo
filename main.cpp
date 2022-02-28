@@ -15,6 +15,7 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 
 #include <iostream>
 #include <fstream> 
+#include <memory>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ int main(int argc, char **argv) {
     unsigned int k = 0;
     double theta = -1;
     string algo = "";
-    RoadNetwork *rN = 0;
+    std::unique_ptr<RoadNetwork> rN = nullptr;
     
     NodeID source = 0, target = 100;
 
@@ -76,32 +77,32 @@ int main(int argc, char **argv) {
     cout << "[LOG] Algorithm: " << algo << endl;
     
     // Loading road network
-    rN = new RoadNetwork(graphFile.c_str());
+    rN = std::make_unique<RoadNetwork>(graphFile.c_str());
     
     vector<Path> result;
     pair<vector<Path>,double> completeResult;
 
 	if(boost::iequals(algo, "op")) {
-    	result = onepass(rN,source,target,k,theta);
+    	result = onepass(rN.get(),source,target,k,theta);
     }
     else if(boost::iequals(algo, "mp")) {
-    	result = multipass(rN,source,target,k,theta);
+    	result = multipass(rN.get(),source,target,k,theta);
     }
     else if(boost::iequals(algo, "opplus")) {
-    	result = onepass_plus(rN,source,target,k,theta);
+    	result = onepass_plus(rN.get(),source,target,k,theta);
     }
     else if(boost::iequals(algo, "svpplus")) {
-    	result = svp_plus(rN,source,target,k,theta);
+    	result = svp_plus(rN.get(),source,target,k,theta);
     }
     else if(boost::iequals(algo, "esx")) {
-    	result = esx(rN,source,target,k,theta);
+    	result = esx(rN.get(),source,target,k,theta);
     }
     else if(boost::iequals(algo, "svp-c")) {
-   		completeResult = svp_plus_complete(rN,source,target,k,theta);
+   		completeResult = svp_plus_complete(rN.get(),source,target,k,theta);
    		result = completeResult.first;
    	}
     else if(boost::iequals(algo, "esx-c")) {
-   		completeResult = esx_complete(rN,source,target,k,theta);
+   		completeResult = esx_complete(rN.get(),source,target,k,theta);
    		result = completeResult.first;
    	}
     
@@ -122,6 +123,5 @@ int main(int argc, char **argv) {
         cout << endl;
     }
 
-    delete rN;
     return 0;
 }
