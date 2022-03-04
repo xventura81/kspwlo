@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     fs::path baseFilePath{graphFile};
     for( const auto& path : result ) {
         fs::path resFilePath{baseFilePath};
-        resFilePath.replace_filename(baseFilePath.stem().string() + "_" + std::to_string(index++));
+        resFilePath.replace_filename(baseFilePath.stem().string() + "_" + std::to_string(index++) + ".dot");
         std::ofstream stream{resFilePath};
         boost::write_graphviz(stream, path);
     }
