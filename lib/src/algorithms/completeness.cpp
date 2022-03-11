@@ -1,4 +1,4 @@
-#include "kspwlo.hpp"
+#include "kspwlolib/kspwlo.hpp"
 
 #include <set>
 #include <utility>

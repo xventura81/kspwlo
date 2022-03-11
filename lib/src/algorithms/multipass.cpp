@@ -2,7 +2,7 @@
 Copyright (c) 2017 Theodoros Chondrogiannis
 */
 
-#include "kspwlo.hpp"
+#include "kspwlolib/kspwlo.hpp"
 
 Path next_spwlo_bounds(RoadNetwork *rN, NodeID source, NodeID target, double theta, unordered_map<Edge, vector<int>,boost::hash<Edge>> &resEdges, vector<Path> &resPaths, vector<int> &bounds);
 

@@ -9,8 +9,8 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 #include <vector>
 #include <unordered_map>
 
-#include "../model/graph.hpp"
-#include "../tools/tools.hpp"
+#include "kspwlolib/graph.hpp"
+#include "kspwlolib/tools.hpp"
 
 using namespace std;
 

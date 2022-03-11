@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graph.hpp"
+#include "kspwlolib/graph.hpp"
 
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/properties.hpp>

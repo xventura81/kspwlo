@@ -11,7 +11,7 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 #include <algorithm>
 #include <unordered_set>
 
-#include "../model/graph.hpp"
+#include "kspwlolib/graph.hpp"
 
 using namespace std;
 

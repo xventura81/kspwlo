@@ -2,7 +2,7 @@
 Copyright (c) 2017 Theodoros Chondrogiannis
 */
 
-#include "graph.hpp"
+#include "kspwlolib/graph.hpp"
 
 RoadNetwork::RoadNetwork(const char *filename) {
     

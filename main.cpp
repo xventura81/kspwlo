@@ -2,9 +2,9 @@
 Copyright (c) 2017 Theodoros Chondrogiannis
 */
 
-#include "model/graph.hpp"
-#include "model/graph_adaptor.h"
-#include "algorithms/kspwlo.hpp"
+#include "kspwlolib/graph.hpp"
+#include "graph_adaptor.h"
+#include "kspwlolib/kspwlo.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/concept/assert.hpp>

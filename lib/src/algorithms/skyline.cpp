@@ -2,7 +2,7 @@
 Copyright (c) 2017 Theodoros Chondrogiannis
 */
 
-#include "kspwlo.hpp"
+#include "kspwlolib/kspwlo.hpp"
 
 void SkylineContainer::insert(OlLabel* msv) {
 	if(!this->contains(msv->node_id)) {
