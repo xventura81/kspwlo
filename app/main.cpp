@@ -130,6 +130,8 @@ int main(int argc, char **argv) {
         cout << endl;
     }
 
+    cout << endl;
+    cout << "Generated files:" << endl;
     index = 0;
     fs::path baseFilePath{graphFile};
     for( const auto& path : result ) {
@@ -137,6 +139,7 @@ int main(int argc, char **argv) {
         resFilePath.replace_filename(baseFilePath.stem().string() + "_" + std::to_string(index++) + ".dot");
         std::ofstream stream{resFilePath};
         boost::write_graphviz(stream, path);
+        cout << resFilePath << endl;
     }
 
     return 0;
