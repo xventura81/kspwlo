@@ -425,5 +425,5 @@ pair<vector<Path>,double> svp_plus_complete(RoadNetwork *rN, NodeID source, Node
 		}
 	}	
 	
-	return make_pair(resPaths,theta);
+	return make_pair(resPathsFinal,theta);
 }
