@@ -13,6 +13,8 @@
         "xhash": "cpp",
         "xlocale": "cpp",
         "xstddef": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "filesystem": "cpp"
     },
+    "cmake.configureSettings": { "BUILD_BENCHMARKS": "ON" }
 }

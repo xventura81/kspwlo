@@ -5,4 +5,8 @@ project( KSPWLO VERSION 1.0 LANGUAGES CXX )
 
 add_subdirectory( app )
 add_subdirectory( lib )
-add_subdirectory( benchmark )
+
+option( BUILD_BENCHMARKS "Enable benchmark build." OFF )
+if( BUILD_BENCHMARKS )
+    add_subdirectory( benchmark )
+endif()
