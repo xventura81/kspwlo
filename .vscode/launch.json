@@ -33,7 +33,7 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/app/kspwlo.exe",
-            "args": ["-f", "${input:inputFile}", "-k", "${input:k}", "-t", "${input:t}", "-s", "0", "-d", "${input:d}", "-a", "${input:algorithm}"],
+            "args": ["-f", "${input:inputFile}", "-k", "${input:k}", "-t", "${input:t}", "-s", "${input:s}", "-d", "${input:d}", "-a", "${input:algorithm}"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
@@ -58,6 +58,12 @@
             "type": "promptString",
             "description": "similarity threshold",
             "default": "0.5"
+        },
+        {
+            "id": "s",
+            "type": "promptString",
+            "description": "source node",
+            "default": "0"
         },
         {
             "id": "d",
