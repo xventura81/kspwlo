@@ -59,6 +59,9 @@ double Path::overlap_ratio(RoadNetwork *rN, Path &path2) {
 			sharedLength += rN->getEdgeWeight(path2.nodes[i],path2.nodes[i+1]);
 	}
 
+    if(path2.length == 0)
+        return 1.0;
+
     return sharedLength/path2.length;
 }
 
