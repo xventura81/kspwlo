@@ -3,13 +3,10 @@ Copyright (c) 2017 Theodoros Chondrogiannis
 */
 
 #include "kspwlolib/graph.hpp"
-#include "graph_adaptor.h"
 #include "kspwlolib/kspwlo.hpp"
+#include "reporter.h"
 
 #include <boost/algorithm/string.hpp>
-#include <boost/concept/assert.hpp>
-#include <boost/graph/graph_concepts.hpp>
-#include <boost/graph/graphviz.hpp>
 #include <boost/program_options.hpp>
 #include <boost/regex.hpp>
 
@@ -26,6 +23,8 @@ int main(int argc, char **argv) {
     unsigned int k = 0;
     double theta = -1;
     string algo = "";
+    string outputFormat = "dot";
+    string outputPath = "";
     std::unique_ptr<RoadNetwork> rN = nullptr;
 
     NodeID source = 0, target = 100;
@@ -39,7 +38,9 @@ int main(int argc, char **argv) {
 		("destination,d", po::value<unsigned int>(&target), "")
 		("paths,k", po::value<unsigned int>(&k), "")
 		("threshold,t", po::value<double>(&theta), "")
-		("algorithm,a", po::value<string>(&algo), "");
+		("algorithm,a", po::value<string>(&algo), "")
+        ("outputFormat,o", po::value<string>(&outputFormat), "")
+        ("outputPath,p", po::value<string>(&outputPath), "");
 
 	po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -113,34 +114,23 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    cout << source << "\t" << target << "\t[" << result[0].length;
-    for(unsigned int j = 1;j<result.size();j++) {
-    	cout << "," << result[j].length;
-    }
-    cout << "]" << endl;
+    Reporter reporter{ source, target, result, outputFormat };
+    reporter.printSummary();
+    reporter.printResultDetails();
 
-    BOOST_CONCEPT_ASSERT(( boost::VertexAndEdgeListGraphConcept<Path> ));
-    BOOST_CONCEPT_ASSERT(( boost::VertexIndexGraphConcept<Path> ));
+    const auto basePath = std::invoke( [&outputPath, &graphFile](){
+        if( outputPath.empty() )
+            return fs::path{ graphFile }.parent_path();
+        return fs::path{ outputPath };
+    } );
 
-    cout << endl;
-    auto index = int{0};
-    for( const auto& path : result ) {
-        cout << "--Path " << index++ << "--" << endl;
-        boost::write_graphviz(cout, path);
-        cout << endl;
-    }
+    const auto baseFilePath = basePath / ( fs::path{ graphFile }.stem().string() 
+                                        + "_nodes" + std::to_string( source ) + "-" + std::to_string(target) 
+                                        + "_thres-" + std::to_string(theta) 
+                                        + "_algo-" + algo
+                                        + ".dummy" );
 
-    cout << endl;
-    cout << "Generated files:" << endl;
-    index = 0;
-    fs::path baseFilePath{graphFile};
-    for( const auto& path : result ) {
-        fs::path resFilePath{baseFilePath};
-        resFilePath.replace_filename( baseFilePath.stem().string() + "_nodes" + std::to_string(source) + "-" + std::to_string(target) + "_thres-" + std::to_string(theta) + "_algo-" + algo + "_path-" + std::to_string(index++) + ".dot" );
-        std::ofstream stream{resFilePath};
-        boost::write_graphviz(stream, path);
-        cout << resFilePath << endl;
-    }
+    reporter.exportToFile( baseFilePath );
 
     return 0;
 }

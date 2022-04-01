@@ -16,6 +16,8 @@ add_executable( kspwlo )
 target_sources( kspwlo
     PRIVATE
         main.cpp
+        reporter.h
+        reporter.cpp
 )
 
 target_link_libraries( kspwlo
