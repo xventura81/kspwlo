@@ -17,7 +17,7 @@ public:
 
     void printSummary();
     void printResultDetails();
-    void exportToFile( const std::filesystem::path& outputFilePath );
+    void exportToFile( const std::filesystem::path& outputFilePath, bool quiet = false );
 
 private:
     NodeID mSource;

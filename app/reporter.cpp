@@ -60,18 +60,20 @@ void Reporter::printResultDetails()
     std::cout << std::endl;
 }
 
-void Reporter::exportToFile( const std::filesystem::path& outputFilePath )
+void Reporter::exportToFile( const std::filesystem::path& outputFilePath, bool quiet /*= false*/ )
 {
     const auto generatedFiles = exportToFileInternal(outputFilePath);
     if( generatedFiles.empty() )
         return;
 
-    std::cout << "Generated files:" << std::endl;
-    auto index = int{ 0 };
-    for( const auto& path : generatedFiles ) {
-        std::cout << path << std::endl;
+    if( !quiet ) {
+        std::cout << "Generated files:" << std::endl;
+        auto index = int{ 0 };
+        for( const auto& path : generatedFiles ) {
+            std::cout << path << std::endl;
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 std::vector<std::filesystem::path> Reporter::exportToFileInternal( const std::filesystem::path& outputFilePath )

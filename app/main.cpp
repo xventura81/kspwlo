@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
     string algo = "";
     string outputFormat = "dot";
     string outputPath = "";
+    bool quiet = false;
     std::unique_ptr<RoadNetwork> rN = nullptr;
 
     NodeID source = 0, target = 100;
@@ -40,44 +41,53 @@ int main(int argc, char **argv) {
 		("threshold,t", po::value<double>(&theta), "")
 		("algorithm,a", po::value<string>(&algo), "")
         ("outputFormat,o", po::value<string>(&outputFormat), "")
-        ("outputPath,p", po::value<string>(&outputPath), "");
+        ("outputPath,p", po::value<string>(&outputPath), "")
+        ("quiet,q", "");
 
 	po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);    
+    po::notify(vm);
 
-	if (vm.count("help")) {
+    quiet = vm.count("quiet");
+
+    if (vm.count("help")) {
 		cout << desc << "\n";
 		return 1;
 	}
 	
 	//Input checking	
 	if(graphFile == "" ) {
-    	cerr << "Wrong arguments. Define graph file correctly." << endl;
+        if( !quiet )
+    	    cerr << "Wrong arguments. Define graph file correctly." << endl;
     	exit(1);
     }
     
 	if(k < 1) {
-    	cerr << "Define k between [1,+inf)" << endl;
+        if( !quiet )
+    	    cerr << "Define k between [1,+inf)" << endl;
     	exit(2);
     }
     
     if(theta < 0 || theta > 1) {
-    	cerr << "Define theta between [0,1]" << endl;
+        if( !quiet )
+    	    cerr << "Define theta between [0,1]" << endl;
     	exit(3);
     }
     
     if(source == target) {
-    	cerr << "Source and target are the same node" << endl;
+        if( !quiet )
+    	    cerr << "Source and target are the same node" << endl;
     	exit(4);
     }
     
-    cout << "[LOG] Network: " << graphFile << endl;
-    cout << "[LOG] Source node: " << source << endl;
-    cout << "[LOG] Target node: " << target << endl;
-    cout << "[LOG] Number of paths k: " << k << endl;
-    cout << "[LOG] Similarity threshold theta: " << theta << endl;
-    cout << "[LOG] Algorithm: " << algo << endl;
+    if( !quiet ) {
+        cout << "[LOG] Network: " << graphFile << endl;
+        cout << "[LOG] Source node: " << source << endl;
+        cout << "[LOG] Target node: " << target << endl;
+        cout << "[LOG] Number of paths k: " << k << endl;
+        cout << "[LOG] Similarity threshold theta: " << theta << endl;
+        cout << "[LOG] Algorithm: " << algo << endl;
+    }
     
     // Loading road network
     rN = std::make_unique<RoadNetwork>(graphFile.c_str());
@@ -110,13 +120,16 @@ int main(int argc, char **argv) {
    	}
 
     if(result.empty()) {
-        cout << "No solution found!" << endl;
+        if( !quiet )
+            cout << "No solution found!" << endl;
         return 0;
     }
 
     Reporter reporter{ source, target, result, outputFormat };
-    reporter.printSummary();
-    reporter.printResultDetails();
+    if( !quiet ) {
+        reporter.printSummary();
+        reporter.printResultDetails();
+    }
 
     const auto basePath = std::invoke( [&outputPath, &graphFile](){
         if( outputPath.empty() )
@@ -130,7 +143,7 @@ int main(int argc, char **argv) {
                                         + "_algo-" + algo
                                         + ".dummy" );
 
-    reporter.exportToFile( baseFilePath );
+    reporter.exportToFile( baseFilePath, quiet );
 
     return 0;
 }
